@@ -6,7 +6,7 @@ library(ggplot2)
 library(shinydashboard)
 library(tigris)
 library(dplyr)
-source("C:/Users/llesz/Documents/diseasemaps/helpers.R")
+source("/srv/shiny-server/databases/prevalencemaps/helpers.R")
 library(reshape2)
 library(rgdal)
 library(rgeos)
@@ -18,28 +18,28 @@ library(jtools)
 #write_feather(df, path) and read_feather(path) for quick reading of data
 
 #getting the sf object to plot and match with brfss data
-location<-readOGR("C:/Users/llesz/Desktop/tl_2017_us_cbsa/tl_2017_us_cbsa.shp")
+location<-readOGR("/srv/shiny-server/databases/prevalencemaps/tl_2017_us_cbsa.shp")
 location_min<-gSimplify(location, tol=0.01, topologyPreserve=TRUE)
 location_min = SpatialPolygonsDataFrame(location_min, data=location@data)
 location_min_sf <- st_as_sf(location_min, sf_column_name = )
 
 #getting names of MMSAs as options
-weighted_asthma_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_asthma_w_counts_leaflet.feather")
+weighted_asthma_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_asthma_w_counts_leaflet.feather")
 mmsas <- filter(weighted_asthma_prev, YEAR == "2007-2017 (all years)")
 matches <- match(mmsas$MMSA, location_min_sf$CBSAFP)
 namatches<-matches[!is.na(matches)]
 polynames <- as.character(location_min_sf[namatches,]$NAME)
 polynames_final <- data.frame(polynames[!is.na(polynames)])
-write_feather(polynames_final, "C:/Users/llesz/Documents/diseasemaps/mmsa_names.feather")
-mmsa_names <- read_feather("C:/Users/llesz/Documents/diseasemaps/mmsa_names.feather")
+write_feather(polynames_final, "/srv/shiny-server/databases/prevalencemaps/mmsa_names.feather")
+mmsa_names <- read_feather("/srv/shiny-server/databases/prevalencemaps/mmsa_names.feather")
 mmsa_names$x <- as.character(mmsa_names$polynames..is.na.polynames..)
 polynamesnumbers<-cbind(mmsa_names, location_min_sf[namatches,]$CBSAFP)
 polynamesnumbers$CBSAFP<-polynamesnumbers$`location_min_sf[namatches, ]$CBSAFP`
 
-weighted_current_asthma_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_asthma_w_counts_leaflet.feather")
+weighted_current_asthma_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_asthma_w_counts_leaflet.feather")
 weighted_current_asthma_prev$Asthma_percent <- weighted_current_asthma_prev$asthnow*100
 
-weighted_current_vars <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_asthma_leaflet.feather")
+weighted_current_vars <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_asthma_leaflet.feather")
 colnames(weighted_current_vars) <- c("MMSA", "YEAR", "Asthma", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                      "Male", "Female", "White", "Asian/Pacific Islander",
                                      "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -48,10 +48,10 @@ colnames(weighted_current_vars) <- c("MMSA", "YEAR", "Asthma", "<$25,000", "$25,
                                      "Less than high school", "High school", "Some college or more",
                                      "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-weighted_current_chd_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_chd_w_counts_leaflet.feather")
+weighted_current_chd_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_chd_w_counts_leaflet.feather")
 weighted_current_chd_prev$CHD_percent <- weighted_current_chd_prev$CHD*100
 
-weighted_current_varschd <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_chd_leaflet.feather")
+weighted_current_varschd <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_chd_leaflet.feather")
 colnames(weighted_current_varschd) <- c("MMSA", "YEAR", "CHD", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                         "Male", "Female", "White", "Asian/Pacific Islander",
                                         "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -60,10 +60,10 @@ colnames(weighted_current_varschd) <- c("MMSA", "YEAR", "CHD", "<$25,000", "$25,
                                         "Less than high school", "High school", "Some college or more",
                                         "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-weighted_current_flushot_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_Flushot_w_counts_leaflet.feather")
+weighted_current_flushot_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_Flushot_w_counts_leaflet.feather")
 weighted_current_flushot_prev$Flushot_percent <- weighted_current_flushot_prev$Flushot*100
 
-weighted_current_varsflushot <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_flushot_leaflet.feather")
+weighted_current_varsflushot <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_flushot_leaflet.feather")
 colnames(weighted_current_varsflushot) <- c("MMSA", "YEAR", "Flushot", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                         "Male", "Female", "White", "Asian/Pacific Islander",
                                         "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -72,7 +72,7 @@ colnames(weighted_current_varsflushot) <- c("MMSA", "YEAR", "Flushot", "<$25,000
                                         "Less than high school", "High school", "Some college or more",
                                         "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-current.all <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/12.11.asthnow_final.feather")
+current.all <- read_feather("/srv/shiny-server/databases/prevalencemaps/12.11.asthnow_final.feather")
 colnames(current.all)[colnames(current.all)=="FLUSHOT"] <- "Flushot"
 colnames(current.all)[colnames(current.all)=="CHD"] <- "CHD"
 colnames(current.all)[colnames(current.all)=="ASTHNOW"] <- "Asthma"
