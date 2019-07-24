@@ -27,7 +27,7 @@ sidebar <- dashboardSidebar(
 body<-dashboardBody(
   tabItems(
     tabItem(tabName = "Introduction",
-                   includeHTML("C:/Users/llesz/Documents/diseasemaps/introprevalencemaps.html")
+                   includeHTML("/srv/shiny-server/databases/prevalencemaps/introprevalencemaps.html")
     ),
     tabItem(tabName = "MMSA-Specific Input"
             ),
