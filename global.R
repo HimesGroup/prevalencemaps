@@ -7,7 +7,7 @@ library(ggplot2)
 library(shinydashboard)
 library(tigris)
 library(dplyr)
-source("C:/Users/llesz/Documents/diseasemaps/helpers.R")
+source("/srv/shiny-server/prevalencemaps/helpers.R")
 library(reshape2)
 library(rgdal)
 library(rgeos)
@@ -18,15 +18,15 @@ library(jtools)
 #write_feather(df, path) and read_feather(path) for quick reading of data
 
 ##getting the sf object to plot and match with brfss data
-location_min_sf<-st_read("C:/Users/llesz/Documents/diseasemaps/databases/location_min_sf.shp")
+location_min_sf<-st_read("/srv/shiny-server/databases/prevalencemaps/location_min_sf.shp")
 
-mmsa_names<-read_feather("C:/Users/llesz/Documents/diseasemaps/mmsa_names.feather")
-polynamesnumbers<-read_feather("C:/Users/llesz/Documents/diseasemaps/polynamesnumbers.feather")
+mmsa_names<-read_feather("/srv/shiny-server/databases/prevalencemaps/mmsa_names.feather")
+polynamesnumbers<-read_feather("/srv/shiny-server/databases/prevalencemaps/polynamesnumbers.feather")
 
-weighted_current_asthma_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_asthma_w_counts_leaflet.feather")
+weighted_current_asthma_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_asthma_w_counts_leaflet.feather")
 weighted_current_asthma_prev$Asthma_percent <- weighted_current_asthma_prev$asthnow*100
 
-weighted_current_vars <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_asthma_leaflet.feather")
+weighted_current_vars <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_asthma_leaflet.feather")
 colnames(weighted_current_vars) <- c("MMSA", "YEAR", "Asthma", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                      "Male", "Female", "White", "Asian/Pacific Islander",
                                      "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -35,10 +35,10 @@ colnames(weighted_current_vars) <- c("MMSA", "YEAR", "Asthma", "<$25,000", "$25,
                                      "Less than high school", "High school", "Some college or more",
                                      "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-weighted_current_chd_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_chd_w_counts_leaflet.feather")
+weighted_current_chd_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_chd_w_counts_leaflet.feather")
 weighted_current_chd_prev$CHD_percent <- weighted_current_chd_prev$CHD*100
 
-weighted_current_varschd <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_chd_leaflet.feather")
+weighted_current_varschd <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_chd_leaflet.feather")
 colnames(weighted_current_varschd) <- c("MMSA", "YEAR", "CHD", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                         "Male", "Female", "White", "Asian/Pacific Islander",
                                         "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -47,10 +47,10 @@ colnames(weighted_current_varschd) <- c("MMSA", "YEAR", "CHD", "<$25,000", "$25,
                                         "Less than high school", "High school", "Some college or more",
                                         "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-weighted_current_flushot_prev <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_Flushot_w_counts_leaflet.feather")
+weighted_current_flushot_prev <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_Flushot_w_counts_leaflet.feather")
 weighted_current_flushot_prev$Flushot_percent <- weighted_current_flushot_prev$Flushot*100
 
-weighted_current_varsflushot <- read_feather("C:/Users/llesz/Documents/diseasemaps/databases/weighted_current_variables_flushot_leaflet.feather")
+weighted_current_varsflushot <- read_feather("/srv/shiny-server/databases/prevalencemaps/weighted_current_variables_flushot_leaflet.feather")
 colnames(weighted_current_varsflushot) <- c("MMSA", "YEAR", "Flushot", "<$25,000", "$25,000-$75,000", ">$75,000", 
                                             "Male", "Female", "White", "Asian/Pacific Islander",
                                             "Black", "Hispanic", "American Indian/Alaskan Native",
@@ -59,11 +59,11 @@ colnames(weighted_current_varsflushot) <- c("MMSA", "YEAR", "Flushot", "<$25,000
                                             "Less than high school", "High school", "Some college or more",
                                             "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
-current.all<-read_feather("C:/Users/llesz/Documents/diseasemaps/current_all.feather")
-current.all2007_2017<-read_feather("C:/Users/llesz/Documents/diseasemaps/current_all2007_2017.feather")
-current.all2007_2010<-read_feather("C:/Users/llesz/Documents/diseasemaps/current_all2007_2010.feather")
-current.all2011_2017<-read_feather("C:/Users/llesz/Documents/diseasemaps/current_all2011_2017.feather")
+current.all<-read_feather("/srv/shiny-server/databases/prevalencemaps/current_all.feather")
+current.all2007_2017<-read_feather("/srv/shiny-server/databases/prevalencemaps/current_all2007_2017.feather")
+current.all2007_2010<-read_feather("/srv/shiny-server/databases/prevalencemaps/current_all2007_2010.feather")
+current.all2011_2017<-read_feather("/srv/shiny-server/databases/prevalencemaps/current_all2011_2017.feather")
 
-des2007_2017<-readRDS("C:/Users/llesz/Documents/diseasemaps/databases/des2007_2017.rds")
-des2007_2010<-readRDS("C:/Users/llesz/Documents/diseasemaps/databases/des2007_2010.rds")
-des2011_2017<-readRDS("C:/Users/llesz/Documents/diseasemaps/databases/des2011_2017.rds")
+des2007_2017<-readRDS("/srv/shiny-server/databases/prevalencemaps/des2007_2017.rds")
+des2007_2010<-readRDS("/srv/shiny-server/databases/prevalencemaps/des2007_2010.rds")
+des2011_2017<-readRDS("/srv/shiny-server/databases/prevalencemaps/des2011_2017.rds")
