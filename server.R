@@ -220,20 +220,20 @@ function(input, output, clientData, session) {
       theme(axis.ticks.x = element_blank())
     })
     
-      mm <- reactive ({ 
-        fit <- svyglm(as.formula(paste(input$control_disease3,"~",input$factors,"*",
-                    input$multivariable)), design=des.year2(), family=binomial(), 
-                    data=current.all.year2())
-        k<-summ(fit, exp=TRUE)
-        e<-k$coeftable
-        mm<-e[-1,-3]
-        mm
-      })
+     # mm <- reactive ({ 
+      #  fit <- svyglm(as.formula(paste(input$control_disease3,"~",input$factors,"*",
+       #             input$multivariable)), design=des.year2(), family=binomial(), 
+        #            data=current.all.year2())
+      #  k<-summ(fit, exp=TRUE)
+      #  e<-k$coeftable
+      #  mm<-e[-1,-3]
+      #  mm
+      #})
       
-      output$summarymulti <- renderTable( 
-        mm(),
-        striped=TRUE, rownames=TRUE, colnames=TRUE
-      )
+      #output$summarymulti <- renderTable( 
+      #  mm(),
+      #  striped=TRUE, rownames=TRUE, colnames=TRUE
+      #)
       
     #Bivariate
     f.c_dis2<-as.factor(input$control_disease2)
@@ -248,18 +248,18 @@ function(input, output, clientData, session) {
       theme(axis.text.x=element_text(hjust=1))
     })
     
-    b<-reactive({
-        jz <- summ(svyglm(as.formula(paste(input$control_disease2,"~",input$variable)), 
-                      design=des.year(), family=binomial(), 
-                      data=current.all.year()), exp=TRUE)
-        truth<-jz$coeftable[-1,-3]
-        truth
-    })
+ #   b<-reactive({
+ #       jz <- summ(svyglm(as.formula(paste(input$control_disease2,"~",input$variable)), 
+ #                     design=des.year(), family=binomial(), 
+ #                     data=current.all.year()), exp=TRUE)
+ #       truth<-jz$coeftable[-1,-3]
+ #       truth
+  #  })
     
-    output$summary <- renderTable( 
-      b(),
-      striped=TRUE, rownames=TRUE, colnames=TRUE
-    )
+ #   output$summary <- renderTable( 
+ #     b(),
+ #     striped=TRUE, rownames=TRUE, colnames=TRUE
+ #   )
     
     #Regionality
     output$regiongraph <- renderPlot ({ current.all.year3() %>% 
