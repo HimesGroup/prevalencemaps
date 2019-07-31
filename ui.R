@@ -100,11 +100,11 @@ body<-dashboardBody(
                   ),
               box(width=7,
                   plotOutput("graph", height = 350))
-            ),
-            fluidRow(
-              box(width=12,h4("Regression Output with Odds Ratios"),
-                  tableOutput("summary"))
             )),
+            #fluidRow(
+            #  box(width=12,h4("Regression Output with Odds Ratios"),
+            #      tableOutput("summary"))
+            #)
     tabItem(tabName = "Multivariate",        
     fluidRow(
               box(width=5,height = 400,h2("Multivariable Relationships"),
@@ -122,13 +122,13 @@ body<-dashboardBody(
                   ),
               box(width=7,
                   plotOutput("multigraph", height=400))
-              ),
-    fluidRow(
-      box(width=12,
-          h4("Regression Output with Odds Ratios"),
-          tableOutput("summarymulti"))
-    )
-            ),
+              )),
+  #  fluidRow(
+  #    box(width=12,
+  #        h4("Regression Output with Odds Ratios"),
+  #        tableOutput("summarymulti"))
+  #  )
+            
     tabItem(tabName = "Regional",
             fluidRow(
               box(width=5,h2("Relationships Across Regions"),
