@@ -1,5 +1,6 @@
+.libPaths(“/home/maya/R/x86_64-pc-linux-gnu-library/3.4/“) 
 library(shiny)
-library(Widgets)
+library(shinyWidgets)
 library(shinydashboard)
 sidebar <- dashboardSidebar(
   sidebarMenu(id = "sidebarmenu",
