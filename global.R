@@ -135,3 +135,4 @@ weighted_current_adi_prev$`Average ADI` <- weighted_current_adi_prev$ADI_AVE
 
 #Reading in data for use in bivariate, multivariate, and regional graphs.
 current.all<-readRDS("/srv/shiny-server/databases/prevalencemaps/current_all.RDS")
+current.all <- current.all %>% dplyr::mutate(`ADI Quartile` = as.factor(paste0("Q",ntile(ADI, 4))))

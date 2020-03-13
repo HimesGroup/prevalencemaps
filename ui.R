@@ -1,4 +1,4 @@
-.libPaths("/home/maya/R/x86_64-pc-linux-gnu-library/3.4/") 
+.libPaths("/home/avantika/R/x86_64-pc-linux-gnu-library/3.4/") 
 library(shiny)
 library(shinyWidgets)
 library(shinydashboard)
@@ -102,7 +102,7 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   ),
                   selectInput("variable", "Variable of Interest:",
                               choices = c("BMI"="BMI","Smokers"="Smokers","Education"="Education","Income"="Income",
-                                          "Race"="Race", "ADI Quintile" = "`ADI Quintile`"))
+                                          "Race"="Race", "ADI Quartile" = "`ADI Quartile`"))
                   ),
               box(width=9,
                   plotOutput("graph", height = 500))
@@ -121,10 +121,10 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   selectInput("factors",
                               "Other Variables:",
                               choices=c("Smokers"="Smokers","BMI"="BMI","Education"="Education","Income"="Income",
-                                        "Race"="Race","Flushot"="`Flushot Administration`", "ADI Quintile" = "`ADI Quintile`")),
+                                        "Race"="Race","Flushot"="`Flushot Administration`", "ADI Quartile" = "`ADI Quartile`")),
                   selectInput("multivariable", "Stratifying Factor:",
                               choices = c("BMI"="BMI","Education"="Education",
-                                          "Income"="Income","Race"="Race","Sex"="Sex", "ADI Quintile" = "`ADI Quintile`"))
+                                          "Income"="Income","Race"="Race","Sex"="Sex", "ADI Quartile" = "`ADI Quartile`"))
                  ),
               box(width=9,
                   plotOutput("multigraph", height=600))
@@ -144,7 +144,7 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   selectInput("variable2",
                               "Variable of Interest:",
                               choices=c("BMI"="BMI","Smokers"="Smokers","Education"="Education","Income"="Income",
-                                        "Race"="Race",  "ADI Quintile" = "`ADI Quintile`"))
+                                        "Race"="Race",  "ADI Quartile" = "`ADI Quartile`"))
                   ),
                 box(width=9,
                     plotOutput("regiongraph", height = 600))
