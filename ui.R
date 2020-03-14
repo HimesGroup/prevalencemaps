@@ -7,9 +7,6 @@ library(shinydashboard)
 shinyUI(fluidPage(title="Prevalence Maps",
   titlePanel(h1("Prevalence Maps", align = "left")),
   tabsetPanel(
-    tabPanel("Introduction",
-             includeHTML("/srv/shiny-server/databases/prevalencemaps/introprevalencemaps.html")
-    ),
     tabPanel("Map of MMSA Data",
              #Setting controls for how the dropdown options work
             tags$div(tags$style(HTML( ".selectize-dropdown, .selectize-dropdown.form-control{z-index:10000;}"))),
@@ -46,11 +43,14 @@ shinyUI(fluidPage(title="Prevalence Maps",
                          h5(textOutput("mapinfo"), align="center")
                      ))
             )),
+    tabPanel("About",
+             includeHTML("/srv/shiny-server/databases/prevalencemaps/introprevalencemaps.html")
+    ),
     tabPanel("MMSA-Specific Graphs",
             br(),
             fluidRow(
               tags$div(tags$style(HTML( ".selectize-dropdown, .selectize-dropdown.form-control{z-index:10000;}"))),
-              br(),
+              #br(),
                 column(4,
                        selectInput("control_diseaseg", "Condition of Interest:", 
                                    choices=c("Asthma" = "Asthma", "COPD" = "COPD", "CHD" = "CHD", "Diabetes"="Diabetes", 
@@ -68,27 +68,26 @@ shinyUI(fluidPage(title="Prevalence Maps",
                                    ), selected = "2011-2017 (all years)")),
                 column(4,
                        selectInput("mmsa_inputg", "MMSA:",
-                                   choices = mmsa_names$x)),
-              br(),
+                                   choices = mmsa_names$x))),
+              hr(),
               column(12,
-                     h5(textOutput("graphinfo"), align="center"))
-            ),
-            fluidRow(
-              column(4,
-                     box(width=NULL,
-                         plotOutput("income_plot", height = 140),
-                         plotOutput("smoking_plot", height = 140)))
-              ,
-              column(4,
-                     box(width=NULL,
-                         plotOutput("race_plot", height = 140),
-                         plotOutput("bmi_plot", height = 140))
-              ),
-              column(4,
-                     box(width=NULL,
-                         plotOutput("gender_plot", height = 140),
-                         plotOutput("age_plot", height = 140))
-              ))),
+                     h4(textOutput("graphinfo"), align="center")),br(),
+              column(12, fluidRow(
+                      column(4,
+                             box(width=NULL,
+                                 plotOutput("income_plot", height = 240),br(), #140
+                                 plotOutput("smoking_plot", height = 240))
+                             ),
+                      column(4,
+                             box(width=NULL,
+                                 plotOutput("race_plot", height = 240),br(),
+                                 plotOutput("bmi_plot", height = 240))
+                      ),
+                      column(4,
+                             box(width=NULL,
+                                 plotOutput("gender_plot", height = 240),br(),
+                                 plotOutput("age_plot", height = 240))),
+              br()))),
     tabPanel("US Bivariate Graphs",
             fluidRow(
               box(width=3, height = 350, h2("Bivariate Relationships"),
@@ -103,8 +102,8 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   selectInput("variable", "Variable of Interest:",
                               choices = c("BMI"="BMI","Smokers"="Smokers","Education"="Education","Income"="Income",
                                           "Race"="Race", "ADI Quartile" = "`ADI Quartile`"))
-                  ),
-              box(width=9,
+                  ), br(),
+              box(width=6,
                   plotOutput("graph", height = 500))
             )),
     tabPanel("US Multivariate Graphs",        
@@ -125,9 +124,9 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   selectInput("multivariable", "Stratifying Factor:",
                               choices = c("BMI"="BMI","Education"="Education",
                                           "Income"="Income","Race"="Race","Sex"="Sex", "ADI Quartile" = "`ADI Quartile`"))
-                 ),
-              box(width=9,
-                  plotOutput("multigraph", height=600))
+                 ),br(),
+              box(width=7,
+                  plotOutput("multigraph", height=800),align="center",br()) #, width = 1350
              )
      ),
     tabPanel("US Regional Graphs",
@@ -146,8 +145,8 @@ shinyUI(fluidPage(title="Prevalence Maps",
                               choices=c("BMI"="BMI","Smokers"="Smokers","Education"="Education","Income"="Income",
                                         "Race"="Race",  "ADI Quartile" = "`ADI Quartile`"))
                   ),
-                box(width=9,
-                    plotOutput("regiongraph", height = 600))
+                box(width=7,
+                    plotOutput("regiongraph", height=800),align="center",br())
             ))
     )
   )
