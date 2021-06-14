@@ -1,4 +1,4 @@
-.libPaths("/home/maya/R/x86_64-pc-linux-gnu-library/3.4/") 
+#.libPaths("/home/maya/R/x86_64-pc-linux-gnu-library/3.4/") 
 library(shiny)
 library(shinyWidgets)
 library(shinydashboard)
@@ -43,9 +43,6 @@ shinyUI(fluidPage(title="Prevalence Maps",
                          h5(textOutput("mapinfo"), align="center")
                      ))
             )),
-    tabPanel("About",
-             includeHTML("/srv/shiny-server/databases/prevalencemaps/introprevalencemaps.html")
-    ),
     tabPanel("MMSA-Specific Graphs",
             br(),
             fluidRow(
@@ -147,7 +144,10 @@ shinyUI(fluidPage(title="Prevalence Maps",
                   ),
                 box(width=7,
                     plotOutput("regiongraph", height=800),align="center",br())
-            ))
+            )),
+    tabPanel("About",
+             includeHTML("prevalencemaps/introprevalencemaps.html")
+    )
     )
   )
 )
